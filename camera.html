@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cámara - Teachable Machine Image Model</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div>Teachable Machine Image Model - Cámara</div>
+    <div id="button-container">
+        <a href="index.html"><button type="button">Volver al Inicio</button></a>
+    </div>
+    <!-- Contenido específico de la página de cámara de celular -->
+    <div id="webcam-container"></div>
+    <div id="label-container"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    <script type="text/javascript">
+        const URL = "https://teachablemachine.withgoogle.com/models/AfLskZB5M/";
+
+        let model, webcam, labelContainer, maxPredictions;
+
+        async function loadModel() {
+            const modelURL = URL + "model.json";
+            const metadataURL = URL + "metadata.json";
+            model = await tmImage.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
+        }
+
+        async function startWebcam() {
+            await loadModel();
+
+            const flip = true; 
+            webcam = new tmImage.Webcam(320, 240, flip); // Ajuste de tamaño para móviles
+            await webcam.setup({ facingMode: "environment" }); // Use la cámara trasera
+            webcam.play();
+
+            document.getElementById("webcam-container").appendChild(webcam.canvas);
+            labelContainer = document.getElementById("label-container");
+
+            window.requestAnimationFrame(loop);
+        }
+
+        async function loop() {
+            webcam.update(); 
+            await predict();
+            window.requestAnimationFrame(loop);
+        }
+
+        async function predict() {
+            const prediction = await model.predict(webcam.canvas);
+            prediction.sort((a, b) => b.probability - a.probability); // Ordenar por probabilidad descendente
+
+            labelContainer.innerHTML = ""; // Limpiar resultados anteriores
+
+            for (let i = 0; i < Math.min(3, maxPredictions); i++) {
+                let className = prediction[i].className;
+                let probability = (prediction[i].probability * 100).toFixed(2) + "%"; // Convertir a porcentaje
+                if (prediction[i].probability === 1) {
+                    probability = "100%"; // Si la probabilidad es 1, mostrar como 100%
+                }
+                const classPrediction = `${className}: ${probability}`;
+                const div = document.createElement('div');
+                div.innerHTML = classPrediction;
+                labelContainer.appendChild(div);
+            }
+        }
+
+        startWebcam(); // Iniciar la cámara automáticamente al cargar la página
+    </script>
+</body>
+</html>
