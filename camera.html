@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cámara - Teachable Machine Image Model</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        #webcam-container {
+            transform: scaleX(-1); /* Voltear horizontalmente para evitar el modo espejo */
+        }
+    </style>
 </head>
 <body>
     <div>Teachable Machine Image Model - Cámara</div>
@@ -32,7 +37,7 @@
             await loadModel();
 
             const flip = true; 
-            webcam = new tmImage.Webcam(320, 240, flip); // Ajuste de tamaño para móviles
+            webcam = new tmImage.Webcam(320, 640, flip); // Ajuste de tamaño para móviles
             await webcam.setup({ facingMode: "environment" }); // Use la cámara trasera
             webcam.play();
 
