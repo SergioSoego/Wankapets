@@ -32,7 +32,7 @@
             await loadModel();
 
             const flip = true; 
-            webcam = new tmImage.Webcam(320, 640, flip); // Ajuste de tamaño para móviles
+            webcam = new tmImage.Webcam(320, 240, flip); // Ajuste de tamaño para móviles
             await webcam.setup({ facingMode: "user" }); // Use la cámara frontal
             webcam.play();
 
