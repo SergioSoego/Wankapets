@@ -12,7 +12,7 @@
     </style>
 </head>
 <body>
-    <div>Teachable Machine Image Model - Cámara</div>
+    <div>Cámara - Enfoque a la mascota</div>
     <div id="button-container">
         <a href="index.html"><button type="button">Volver al Inicio</button></a>
     </div>
@@ -37,7 +37,7 @@
             await loadModel();
 
             const flip = true; 
-            webcam = new tmImage.Webcam(320, 640, flip); // Ajuste de tamaño para móviles
+            webcam = new tmImage.Webcam(320, 240, flip); // Ajuste de tamaño para móviles
             await webcam.setup({ facingMode: "environment" }); // Use la cámara trasera
             webcam.play();
 
