@@ -1,21 +1,70 @@
+/* Estilos generales */
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #111827;
+    color: #f3f4f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
+/* Fondo moderno */
+.relative {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #0f172a;
+}
+
+.bg-slate-950 {
+    background-color: #1e293b;
+}
+
+.bg-radial {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle 500px at 50% 200px, #3e3e3e, transparent);
+}
+
+/* Contenedor de botones */
 #button-container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    gap: 20px;
     margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Botones modernos */
 button {
-    padding: 10px 20px;
-    font-size: 16px;
-    margin: 10px;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #f3f4f6;
+    background-color: #2563eb;
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-3px);
+}
+
+button:active {
+    background-color: #1e40af;
+    transform: translateY(0);
 }
