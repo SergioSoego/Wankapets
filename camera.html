@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cámara - Teachable Machine Image Model</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        #webcam-container {
-            transform: scaleX(-1); /* Voltear horizontalmente para evitar el modo espejo */
-        }
-    </style>
-</head>
+    <head>
+        <title>Cámara - Teachable Machine Image Model</title> <!-- Mover al inicio del <head> -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles.css">
+        <style>
+            #webcam-container {
+                transform: scaleX(-1); /* Voltear horizontalmente para evitar el modo espejo */
+            }
+        </style>
+    </head>
 <body>
     <div>Cámara - Enfoque a la mascota</div>
     <div id="button-container">
@@ -38,19 +38,26 @@
 
             const flip = true; 
             webcam = new tmImage.Webcam(320, 240, flip); // Ajuste de tamaño para móviles
-            await webcam.setup({ facingMode: "environment" }); // Use la cámara trasera
+            await webcam.setup({ facingMode: "environment" }); // Usar la cámara trasera
             webcam.play();
 
             document.getElementById("webcam-container").appendChild(webcam.canvas);
             labelContainer = document.getElementById("label-container");
 
-            window.requestAnimationFrame(loop);
+            window.requestAnimationFrame(loop); // Mantener la cámara fluida
+            updatePredictions(); // Iniciar predicciones cada 500 ms
         }
 
         async function loop() {
-            webcam.update(); 
-            await predict();
-            window.requestAnimationFrame(loop);
+            webcam.update(); // Actualizar la cámara continuamente
+            window.requestAnimationFrame(loop); // Repetir el bucle para que la cámara siga funcionando
+        }
+
+        async function updatePredictions() {
+            // Ejecutar predicción cada 500 ms
+            setInterval(async () => {
+                await predict(); // Predecir resultados cada medio segundo
+            }, 500); // Intervalo de 500 ms
         }
 
         async function predict() {

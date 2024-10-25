@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webcam - Teachable Machine Image Model</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
+    <head>
+        <title>Webcam - Teachable Machine Image Model</title> <!-- Mover al inicio del <head> -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles.css">
+    </head>
 <body>
     <div>Webcam - Enfoque a su mascota</div>
     <div id="button-container">
@@ -33,19 +33,26 @@
 
             const flip = true; 
             webcam = new tmImage.Webcam(320, 240, flip); // Ajuste de tamaño para móviles
-            await webcam.setup({ facingMode: "user" }); // Use la cámara frontal
+            await webcam.setup({ facingMode: "user" }); // Usar la cámara frontal
             webcam.play();
 
             document.getElementById("webcam-container").appendChild(webcam.canvas);
             labelContainer = document.getElementById("label-container");
 
-            window.requestAnimationFrame(loop);
+            window.requestAnimationFrame(loop); // Mantener la cámara fluida
+            updatePredictions(); // Iniciar predicciones cada 500 ms
         }
 
         async function loop() {
-            webcam.update(); 
-            await predict();
-            window.requestAnimationFrame(loop);
+            webcam.update(); // Actualizar la cámara continuamente
+            window.requestAnimationFrame(loop); // Repetir el bucle para que la cámara siga funcionando
+        }
+
+        async function updatePredictions() {
+            // Ejecutar predicción cada 500 ms
+            setInterval(async () => {
+                await predict(); // Predecir resultados cada medio segundo
+            }, 500); // Intervalo de 500 ms
         }
 
         async function predict() {

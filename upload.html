@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Subir Archivo - Teachable Machine Image Model</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilo adicional para ajustar la imagen cargada */
+        #uploaded-image-container img {
+            width: 300px; /* Fijar el ancho a 300px */
+            height: auto; /* Mantener la relación de aspecto */
+            border-radius: 8px; /* Bordes redondeados para estética */
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Sombra para estilo */
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <div>Teachable Machine Image Model - Subir Archivo</div>
@@ -35,16 +45,17 @@
             reader.onload = async function() {
                 const imgElement = document.createElement('img');
                 imgElement.src = reader.result;
+                
                 imgElement.onload = async function() {
                     await loadModel();
                     const prediction = await model.predict(imgElement);
                     const uploadedImageContainer = document.getElementById("uploaded-image-container");
                     const labelContainer = document.getElementById("label-container");
 
-                    uploadedImageContainer.innerHTML = "";
-                    labelContainer.innerHTML = "";
+                    uploadedImageContainer.innerHTML = ""; // Limpiar imágenes previas
+                    labelContainer.innerHTML = ""; // Limpiar predicciones previas
 
-                    uploadedImageContainer.appendChild(imgElement);
+                    uploadedImageContainer.appendChild(imgElement); // Añadir imagen cargada
 
                     prediction.sort((a, b) => b.probability - a.probability); // Ordenar por probabilidad descendente
 
